@@ -11,3 +11,12 @@
 *.lai
 *.la
 *.a
+
+# Visual Studio files
+*.filters
+*.user
+*.sdf
+*.suo
+
+
+*.cd
