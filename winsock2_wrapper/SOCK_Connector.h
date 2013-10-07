@@ -22,17 +22,15 @@ public:
 
 	SOCK_Connector(const char * ip, const u_short port)
 	{
-		serverSOCK.initialise(port, ip);
-
-		serverSOCK.connect();
+		serverStream.initialize(port, ip);
 	}
 
 	void send(const char * sendbuf){
-		serverSOCK.send(sendbuf);
+		serverStream.send(sendbuf);
 	}
 
 	std::string recive(){
-		return serverSOCK.recive();
+		return serverStream.recive();
 	}
 
 	~SOCK_Connector(){
@@ -41,7 +39,7 @@ public:
 
 private:
 
-	SOCK_Stream serverSOCK;
+	SOCK_Stream serverStream;
 
 
 };

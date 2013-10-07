@@ -26,5 +26,6 @@
 *.tlog
 *.lastbuildstate
 *.idb
+*.opensdf
 
 *.cd
