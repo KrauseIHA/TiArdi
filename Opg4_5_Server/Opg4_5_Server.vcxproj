@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D77E826E-648E-4960-BE6C-D05B124F15C3}</ProjectGuid>
+    <ProjectGuid>{3F0FE7FE-55FD-4249-ACA4-CD8B5EACD651}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Opg4_5_Server</RootNamespace>
   </PropertyGroup>
