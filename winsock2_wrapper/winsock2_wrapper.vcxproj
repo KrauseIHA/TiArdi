@@ -72,6 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="SocketHandle.h" />
     <ClInclude Include="iEventHandler.h" />
     <ClInclude Include="iReactor.h" />
     <ClInclude Include="INET_Addr.h" />
@@ -82,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="INET_Addr.cpp" />
+    <ClCompile Include="SocketHandle.cpp" />
     <ClCompile Include="SOCK_Acceptor.cpp" />
     <ClCompile Include="SOCK_Connector.cpp" />
     <ClCompile Include="SOCK_Stream.cpp" />

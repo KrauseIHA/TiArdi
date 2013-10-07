@@ -21,14 +21,12 @@ int main(){
 
 		cout << "Incomming connection." << endl;
 
-
-
 		string recived;
 		while (ret == 1)
 		{
 			recived = connection.recive();
 
-			if(recived.length() <= 0)
+			if (recived.length() <= 0)
 				break;
 			else{
 				cout << "Recived: ";
@@ -41,9 +39,15 @@ int main(){
 		Sleep(2000);
 
 		return ret;
-	}catch(SOCK_Exception &e){
-		//e.displayError();
-		DebugBreak();
+	}
+	catch (SOCK_Exception &e){
+		if (e.errorCode != 0){
+			e.displayError();
+			DebugBreak();
+		}
+		else{
+			printf(e.message);
+		}
 	}
 }
 
