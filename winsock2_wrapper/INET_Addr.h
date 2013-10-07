@@ -8,10 +8,21 @@
 #include <winsock2.h>
 #include <Ws2tcpip.h>
 
+#include <memory>
+
 #include "SOCK_Exception.h"
-//#include <cstdio>
+
 
 #pragma comment(lib, "Ws2_32.lib")
+
+class AddrinfoDeleter {
+public:
+
+	void operator()(addrinfo *addr){
+		::freeaddrinfo(addr);
+	}
+};
+
 
 class INET_Addr
 {
@@ -19,47 +30,51 @@ public:
 
 	INET_Addr(){}
 
-	INET_Addr(const INET_Addr &clone){
-		copyInitialize(clone);
-	}
-
 	INET_Addr(const u_short port, const char *address = NULL, addrinfo conectionInfo = INET_Addr::createAddinfo()){
-		initialise(port, address, conectionInfo);
+		initialize(port, address, conectionInfo);
 	}
 
 	INET_Addr(const u_short port, addrinfo conectionInfo = INET_Addr::createAddinfo()){
-		initialise(port, NULL, conectionInfo);
+		initialize(port, NULL, conectionInfo);
+	}
+
+	INET_Addr(const u_short port){
+		INET_Addr(port, NULL);
 	}
 
 	/**
 	*	port numbers are defined using 16 bits, same as u_short
 	**/
-	void initialise(const u_short port, addrinfo conectionInfo){
-		initialise(port, NULL, conectionInfo);
+	void initialize(const u_short port, addrinfo conectionInfo){
+		initialize(port, NULL, conectionInfo);
 	}
 
-	void initialise(const u_short port, const char *address = NULL, addrinfo conectionInfo = INET_Addr::createAddinfo()){
-		char portStr[MAX_LENGTH_OF_PORTNR + 1 ]; // 1 extra for terminating 0
+	void initialize(const u_short port, const char *address = NULL, addrinfo conectionInfo = INET_Addr::createAddinfo()){
+		char portStr[MAX_LENGTH_OF_PORTNR + 1]; // 1 extra for terminating 0
 
 		this->port = port;
 		if (address != NULL){
 			this->address = (char*)malloc(100);
 			strcpy(this->address, address);
-		}else
+		}
+		else
 			this->address = NULL;
-		
+
 		std::sprintf(portStr, "%u", port);
 
 		initializeWinSock();
 
+		addrinfo *result;
+
 		// Resolve the local address and port to be used by the server
-		iResult = ::getaddrinfo(address, portStr, &conectionInfo, &addr_);
+		iResult = ::getaddrinfo(address, portStr, &conectionInfo, &result);
 		if (iResult != 0) {
 			printf("getaddrinfo failed: %d\n", iResult);
 			//close();
 			throw SOCK_Exception(WSAGetLastError(), "Address error");
 		}
-		noDelete = false;
+
+		addrRef.reset(result, AddrinfoDeleter());
 
 	}
 
@@ -75,11 +90,6 @@ public:
 		return hints;
 	}
 
-	INET_Addr(const u_short port)
-	{
-		INET_Addr(port, NULL);
-	}
-
 	u_short get_port() const {
 		return port;
 	}
@@ -90,14 +100,10 @@ public:
 
 	size_t size() const
 	{
-		return sizeof (addr_);
+		return sizeof (*addrRef);
 	}
 
 	~INET_Addr(void){
-		if (noDelete)
-			return;
-
-		freeaddrinfo(addr_);
 	}
 
 	static void initializeWinSock(){
@@ -115,26 +121,16 @@ public:
 	}
 
 private:
-	void copyInitialize(const INET_Addr &from){
-		this->addr_ = from.addr_;
-		this->port = from.port;
-		this->address = from.address;
-
-		noDelete = true;
-
-		initializeWinSock(); // we don't know if this is a very old object, and cleanup has hos already been called
-	}
-
 	const static int MAX_LENGTH_OF_PORTNR = 5;
 
 	char * address;
 	u_short port;
-	addrinfo *addr_;
+
+	std::shared_ptr<addrinfo> addrRef;
 
 	int iResult;
-	bool noDelete;
 	static unsigned int openSockets;
 
-	friend class SOCK_Stream;
+	friend class SocketHandle;
 };
 

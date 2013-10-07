@@ -1,5 +1,5 @@
 #pragma once
-#include "C:\Users\Stefan\Documents\Visual Studio 2013\Projects\TI-Arti-Opg1\winsock2_wrapper\iEventHandler.h"
+#include "..\winsock2_wrapper\iEventHandler.h"
 
 typedef void(*EventHandlerCB)(std::string data);
 

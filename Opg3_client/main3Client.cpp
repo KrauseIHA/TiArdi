@@ -23,11 +23,14 @@ int main(){
 	try{
 		const u_int NUMBER_OF_CLIENTS = 4;
 
-		string address = "localhost";
+		string address;
 
 		cout << "Input server address: ";
 		cin >> address;
 		cout << endl;
+
+		if (address.length() == 0)
+			address = "localhost";
 
 		SOCK_Connector *connection;
 		SOCK_Connector *connections[NUMBER_OF_CLIENTS];

@@ -21,13 +21,17 @@ class PatientMoniterReactor
 public:
 
 	PatientMoniterReactor(const u_short port){
-		SOCK_Stream *listenSock = acceptor.initialize(port);
-		listenSock->setNonBlocking();
-		readSockets.push_back(listenSock);
+		acceptor.initialize(port);
+		SocketHandle listenSocket = (acceptor.getListeningSocket());
+		listenSocket.setNonBlocking();
+
+		readSockets.push_back(listenSocket);
 	}
 
 	~PatientMoniterReactor(){
-
+		//dealocateSocketList(readSockets);
+		//dealocateSocketList(writeSockets);
+		//dealocateSocketList(errorSockets);
 	}
 
 	void removeHandler(iEventHandler *eventHandler, Event_Type eventType){
@@ -73,12 +77,12 @@ private:
 
 	bool internalHandleEvent(int timeout){
 		const std::string conAccepted = "connection accepted from: ";
-		SOCK_Stream::select(readSockets, writeSockets, errorSockets);
+		SocketHandle::select(readSockets, writeSockets, errorSockets);
 
-		SOCK_Stream *client = readSockets.front()->accept();
+		SocketHandle client = readSockets.front().accept();
 
-		if (client != NULL){
-			client->setNonBlocking();
+		if (client.isValid()){
+			client.setNonBlocking();
 			readSockets.push_back(client);
 			//callEvents(EVENT_LOG, "Recived connection from: " +  std::string(client->getAddr().getIpAddr()));
 		}
@@ -133,17 +137,17 @@ private:
 	}
 
 	std::string readCloseSockets(){
-		std::list<SOCK_Stream*>::iterator iter;
+		std::list<SocketHandle>::iterator iter;
 		//first socket is only for listening
 		for (iter = ++readSockets.begin(); iter != readSockets.end(); ++iter){
 			try{
-				std::string recived = (*iter)->recive();
+				std::string recived = (*iter).recive();
 				if (!recived.empty())
 					return recived;
 			}
 			catch (SOCK_Exception &e){
 				if (e.errorCode == 0){//closed socket?
-					delete(*iter);
+					//delete(*iter);
 					readSockets.erase(iter++);
 					return std::string();
 					//return std::string("closed a socket");
@@ -178,9 +182,18 @@ private:
 
 	SOCK_Acceptor acceptor;
 
-	std::list<SOCK_Stream*> readSockets;
-	std::list<SOCK_Stream*> writeSockets;
-	std::list<SOCK_Stream*> errorSockets;
+	void dealocateSocketList(std::list<SocketHandle> sockets){
+		//std::list<SocketHandle>::iterator it = sockets.begin();
+		//while (it != sockets.end()){
+		//	delete (*it);
+		//	++it;
+		//}
+		//sockets.clear();
+	}
+
+	std::list<SocketHandle> readSockets;
+	std::list<SocketHandle> writeSockets;
+	std::list<SocketHandle> errorSockets;
 
 	std::list<iEventHandler*> alarmEventCbs;
 	std::list<iEventHandler*> patientValueEventCbs;
