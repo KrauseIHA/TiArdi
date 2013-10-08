@@ -45,12 +45,12 @@ public:
 	}
 
 
-	std::string accept() {
+	SOCK_Stream accept() {
 		SocketHandle socket = listenSocket.accept();
 		std::string address = socket.getAddr()->getIpAddr();
 		newestSockStream = SOCK_Stream(socket);
 		clientSOCKs.insert(std::pair<std::string, SOCK_Stream>(address, newestSockStream));
-		return address;
+		return newestSockStream;
 	}
 
 	void closeConnection(std::string address){
@@ -68,5 +68,6 @@ private:
 	SocketHandle listenSocket;
 	std::map<std::string, SOCK_Stream> clientSOCKs;
 	SOCK_Stream newestSockStream;
+
 };
 

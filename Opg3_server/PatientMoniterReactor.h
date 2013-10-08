@@ -93,8 +93,7 @@ private:
 			}
 			else{
 				std::list<std::string> packages = unwrapPacakges(rtnValue);
-				std::list<std::string>::iterator iter;
-				for (iter = packages.begin(); iter != packages.end(); ++iter){
+				for (auto iter = packages.begin(); iter != packages.end(); ++iter){
 					Event_Type type = decodeEventType(*iter);
 
 					callEvents(type, (*iter).substr(1, (*iter).length() - 2));
@@ -137,9 +136,8 @@ private:
 	}
 
 	std::string readCloseSockets(){
-		std::list<SocketHandle>::iterator iter;
 		//first socket is only for listening
-		for (iter = ++readSockets.begin(); iter != readSockets.end(); ++iter){
+		for (auto iter = ++readSockets.begin(); iter != readSockets.end(); ++iter){
 			try{
 				std::string recived = (*iter).recive();
 				if (!recived.empty())
@@ -174,8 +172,7 @@ private:
 			break;
 		}
 
-		std::list<iEventHandler*>::const_iterator iter;
-		for (iter = eventHandlers.cbegin(); iter != eventHandlers.end(); ++iter){
+		for (auto iter = eventHandlers.cbegin(); iter != eventHandlers.end(); ++iter){
 			(*iter)->handleEvent(data);
 		}
 	}
@@ -183,8 +180,8 @@ private:
 	SOCK_Acceptor acceptor;
 
 	void dealocateSocketList(std::list<SocketHandle> sockets){
-		//std::list<SocketHandle>::iterator it = sockets.begin();
-		//while (it != sockets.end()){
+
+		//while (auto it != sockets.end()){
 		//	delete (*it);
 		//	++it;
 		//}

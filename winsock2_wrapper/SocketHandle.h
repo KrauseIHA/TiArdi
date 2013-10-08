@@ -215,7 +215,7 @@ private:
 		fd_set *fdSetSockets = new fd_set;
 
 		int i = 0;
-		for (std::list<SocketHandle>::const_iterator iter = sockets.cbegin(); iter != sockets.end(); ++iter){
+		for (auto iter = sockets.cbegin(); iter != sockets.end(); ++iter){
 			fdSetSockets->fd_array[i] = *(*iter).socketRef;
 			i++;
 		}
