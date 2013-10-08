@@ -75,9 +75,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="SyncService.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="SyncService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\winsock2_wrapper\winsock2_wrapper.vcxproj">
