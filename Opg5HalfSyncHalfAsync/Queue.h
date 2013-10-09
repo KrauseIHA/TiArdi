@@ -13,8 +13,9 @@ public:
 	static shared_ptr<Queue> Instance();
 	void Enqueue(shared_ptr<iEventHandler> eh);
 	shared_ptr<iEventHandler> Dequeue();
+	bool Empty();
 private:
-	Queue() {};
+	Queue() { };
 	static shared_ptr<Queue> _instance;
 	queue<shared_ptr<iEventHandler>> _queue;
 	mutex _sm;

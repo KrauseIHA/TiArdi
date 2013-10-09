@@ -2,6 +2,8 @@
 
 shared_ptr<Queue> Queue::Instance()
 {
+	static shared_ptr<Queue> _instance = shared_ptr<Queue>();
+
 	if (_instance.use_count() == 0)
 	{
 		_instance.reset(new Queue);
@@ -23,4 +25,9 @@ shared_ptr<iEventHandler> Queue::Dequeue()
 	_queue.pop();
 	_sm.unlock();
 	return popped;
+}
+
+bool Queue::Empty()
+{
+	return _queue.empty();
 }
