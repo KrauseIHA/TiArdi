@@ -35,8 +35,6 @@ public:
 		return handlePtr;
 	}
 
-	virtual EventType getType() = 0;
-
 	virtual void open() = 0;
 
 protected:

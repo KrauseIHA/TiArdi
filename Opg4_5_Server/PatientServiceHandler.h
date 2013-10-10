@@ -23,9 +23,5 @@ public:
 	{
 		dispatcher->registerHandler(make_shared<PatientServiceHandler>(this), EventType::PATIENTINFOEVENT);
 	}
-
-	EventType getType() {
-		return EventType::PATIENTINFOEVENT;
-	}
 };
 
