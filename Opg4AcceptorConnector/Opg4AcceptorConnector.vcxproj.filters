@@ -24,13 +24,7 @@
     <ClInclude Include="ServiceHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TransportHandle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Dispatcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TransportEndpoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventType.h">

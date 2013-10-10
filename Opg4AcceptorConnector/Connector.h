@@ -50,8 +50,7 @@ public:
 	}
 
 	void handleEvent(){
-		auto serviceHandler = std::make_shared < tServiceHandler>();
-		serviceHandler.setStream
+		compleate();
 	}
 
 	void connect(bool isAsyncronus){
@@ -59,7 +58,10 @@ public:
 	}
 
 	void compleate(){
-
+		auto socket = connector.getHandle();
+		std::shared_ptr<ServiceHandler> serviceHandler = std::make_shared<tServiceHandler>(_dispatcher);
+		serviceHandler.setStream(soket);
+		_dispatcher->removeHandler(this);
 	}
 
 private:

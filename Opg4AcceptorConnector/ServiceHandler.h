@@ -1,15 +1,15 @@
 #pragma once
-#include "iEventHandler.h"
-#include "SOCK_Stream.h"
-#include "TransportHandle.h"
+#include "../winsock2_wrapper/iEventHandler.h"
+#include "../winsock2_wrapper/SOCK_Stream.h"
 #include "EventType.h"
+#include "Dispatcher.h"
 
 class ServiceHandler :
 	public iEventHandler
 {
 public:
 
-	ServiceHandler(shared_ptr<Dispatcher> _dispatcher)
+	ServiceHandler(std::shared_ptr<Dispatcher> _dispatcher)
 	{
 		dispatcher = _dispatcher;
 	}
@@ -38,6 +38,6 @@ public:
 
 private:
 	SOCK_Stream sockStream;
-	shared_ptr<Dispatcher> dispatcher;
+	std::shared_ptr<Dispatcher> dispatcher;
 };
 
