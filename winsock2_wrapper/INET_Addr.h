@@ -111,7 +111,7 @@ public:
 	}
 
 	static void initializeWinSock(){
-		if (openSockets > 0)
+		if (INET_Addr::openSockets > 0)
 			return;
 
 		WSADATA wsaData;
@@ -136,5 +136,6 @@ private:
 	static unsigned int openSockets;
 
 	friend class SocketHandle;
+	friend class SocketDeleter;
 };
 

@@ -82,6 +82,11 @@
   <ItemGroup>
     <ClCompile Include="dummycpp.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\winsock2_wrapper\winsock2_wrapper.vcxproj">
+      <Project>{e3dcdbb5-ca2d-411d-9801-dcc37b91bfdf}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -12,9 +12,8 @@ public:
 
 	}
 
-	ServiceHandler(std::shared_ptr<Dispatcher> _dispatcher)
-	{
-		dispatcher = _dispatcher;
+	ServiceHandler(std::shared_ptr<Reactor> _dispatcher) : dispatcher(_dispatcher)	{
+
 	}
 
 	void handleEvent(std::string data){
@@ -22,7 +21,7 @@ public:
 	}
 
 	void handleEvent() {
-		
+
 	}
 
 	void setStream(SOCK_Stream stream)
@@ -31,8 +30,7 @@ public:
 	}
 
 	std::shared_ptr<SocketHandle> getHandle(){
-		std::shared_ptr<SocketHandle> handlePtr(sockStream.getSocket());
-		return handlePtr;
+		return sockStream.getSocket();
 	}
 
 	virtual EventType getType() = 0;
@@ -41,6 +39,6 @@ public:
 
 protected:
 	SOCK_Stream sockStream;
-	std::shared_ptr<Dispatcher> dispatcher;
+	std::shared_ptr<Reactor> dispatcher;
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 
 //http://msdn.microsoft.com/en-us/library/windows/desktop/ms737629(v=vs.85).aspx
+
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
@@ -18,6 +19,7 @@ public:
 
 	void operator()(SOCKET *socket){
 		::closesocket(*socket);
+		INET_Addr::openSockets--;
 	}
 };
 

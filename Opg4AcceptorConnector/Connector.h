@@ -37,7 +37,8 @@ class Connector :
 {
 public:
 
-	Connector(){}
+	Connector(){
+	}
 
 	Connector(std::string ip, const u_short port, std::shared_ptr<Reactor> dispatcher)
 		: _dispatcher(dispatcher){
@@ -50,7 +51,7 @@ public:
 	}
 
 	void handleEvent(){
-		compleate();
+		complete();
 	}
 
 	void connect(bool isAsyncronus){
@@ -58,14 +59,18 @@ public:
 		connector.connect();
 
 		if (!isAsyncronus)
-			compleate();
+			complete();
 	}
 
-	void compleate(){
+	void complete(){
 		auto socket = connector.getHandle();
-		std::shared_ptr<ServiceHandler> serviceHandler = std::make_shared<tServiceHandler>(_dispatcher);
-		serviceHandler.setStream(soket);
-		_dispatcher->removeHandler(this);
+		auto serviceHandler = std::make_shared<tServiceHandler>(_dispatcher);
+		serviceHandler->setStream(socket);
+		_dispatcher->removeHandler(this, EventType::ACCEPTOR);
+	}
+
+	std::shared_ptr<SocketHandle> getHandle(){
+		return connector.getHandle();
 	}
 
 private:

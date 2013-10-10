@@ -17,9 +17,12 @@
     <ProjectReference Include="..\Opg4AcceptorConnector\Opg4AcceptorConnector.vcxproj">
       <Project>{ab3f1d16-7ef3-4f0f-a231-5efd4851b3d0}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\winsock2_wrapper\winsock2_wrapper.vcxproj">
+      <Project>{e3dcdbb5-ca2d-411d-9801-dcc37b91bfdf}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PatientServiceHandler.h" />
+    <ClInclude Include="PatientServiceHandlerClient.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6250AAE3-9A83-4E0C-9F0F-A927E5C10E6C}</ProjectGuid>

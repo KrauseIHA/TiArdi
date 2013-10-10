@@ -1,11 +1,15 @@
 #include "../Opg4AcceptorConnector/Connector.h"
-
+#include "PatientServiceHandlerClient.h"
+#include "../Opg4AcceptorConnector/EventType.h"
 
 int main(){
 	
 	
 	
 	//1: Open socket connection to server
+
+	Connector<PatientServiceHandlerClient> connector;
+	connector.initialize("localhost", EventType::PATIENTINFOEVENT);
 
 	//2: Client inputs CPR number on the client PC
 

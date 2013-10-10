@@ -30,6 +30,7 @@
 #include "../winsock2_wrapper/Reactor.h"
 #include "../winsock2_wrapper/ConcreteReactor.h"
 #include "../winsock2_wrapper/SOCK_Acceptor.h"
+#include "EventType.h"
 
 #include <memory>
 
@@ -38,16 +39,17 @@ class Acceptor :
 	public iEventHandler
 {
 public:
-	Acceptor(std::shared_ptr<Reactor> reactor)
-		: reactor(reactor){
+	Acceptor(std::shared_ptr<Reactor> reactor, u_short port)
+		: reactor(reactor), _eventType(EventType::ACCEPTOR){
 
-			acceptor.initialize(HandlerClass::getEventType());
+			
+			acceptor.initialize(port);
 			acceptor.getListeningSocket()->setNonBlocking();
 	}
 
 	void handleEvent(){
 		auto handler = std::make_shared<HandlerClass>();
-		handler->setHandle(acceptor.accept().getSocket());
+		handler->setStream(acceptor.accept());
 
 		reactor->registerHandler(handler, _eventType);
 
@@ -58,7 +60,7 @@ public:
 	}
 
 private:
-	const EVENT_TYPE _eventType = ACCEPTOR;
+	const EventType _eventType;
 	std::shared_ptr<Reactor> reactor;
 	SOCK_Acceptor acceptor;
 
