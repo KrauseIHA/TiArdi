@@ -10,6 +10,7 @@ class SOCK_Connector
 {
 public:
 	SOCK_Connector(){
+		isConnected = false;
 	}
 
 	SOCK_Connector(const char * ip, const u_short port)
@@ -18,6 +19,7 @@ public:
 	}
 
 	void initialize(const char * ip, const u_short port){
+		isConnected = false;
 
 		socket = std::make_shared<SocketHandle>(port, ip);
 	}
@@ -28,6 +30,9 @@ public:
 	}
 
 	void send(const char * sendbuf){
+		if (!isConnected)
+			socket->connect();
+
 		socket->send(sendbuf);
 	}
 
@@ -42,6 +47,7 @@ public:
 private:
 	std::shared_ptr<SocketHandle> socket;
 
+	bool isConnected;
 
 };
 

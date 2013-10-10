@@ -11,7 +11,7 @@
 
 
 //Separating the connector's connection initiation method from its completion method allows a
-//connector to support both synchronous and asynchronous connection establishment
+//connector to support both synchronous and asynchronous connection establishmentz
 //transparently :
 
 //-synchronous case-
@@ -29,7 +29,9 @@
 #include "../winsock2_wrapper/SOCK_Connector.h"
 
 #include "ServiceHandler.h"
+#include "../winsock2_wrapper/Reactor.h"
 
+template<class tServiceHandler>
 class Connector :
 	public iEventHandler
 {
@@ -37,12 +39,9 @@ public:
 
 	Connector(){}
 
-	Connector(std::string ip, const u_short port) {
-		initialize(ip, port);
-	}
-
-	Connector(std::shared_ptr<ServiceHandler> serviceHandler){
-		initialize(serviceHandler);
+	Connector(std::string ip, const u_short port, std::shared_ptr<Reactor> dispatcher)
+		: _dispatcher(dispatcher){
+			initialize(ip, port);
 	}
 
 	void initialize(std::string ip, const u_short port){
@@ -50,12 +49,9 @@ public:
 
 	}
 
-	void initialize(std::shared_ptr<ServiceHandler> serviceHandler){
-
-	}
-
 	void handleEvent(){
-
+		auto serviceHandler = std::make_shared < tServiceHandler>();
+		serviceHandler.setStream
 	}
 
 	void connect(bool isAsyncronus){
@@ -68,5 +64,6 @@ public:
 
 private:
 	SOCK_Connector connector;
+	std::shared_ptr<Reactor> _dispatcher;
 };
 
