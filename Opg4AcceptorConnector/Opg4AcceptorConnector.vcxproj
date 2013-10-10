@@ -76,6 +76,7 @@
     <ClInclude Include="Acceptor.h" />
     <ClInclude Include="Connector.h" />
     <ClInclude Include="Dispatcher.h" />
+    <ClInclude Include="EventType.h" />
     <ClInclude Include="ServiceHandler.h" />
     <ClInclude Include="TransportEndpoint.h" />
     <ClInclude Include="TransportHandle.h" />
