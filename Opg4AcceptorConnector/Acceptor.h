@@ -26,53 +26,43 @@
 //generic participants of the Acceptor - Connector pattern described above to create the
 //following concrete components
 
-#include "iEventHandler.h"
-#include "SOCK_Acceptor.h"
-#include "Dispatcher.h"
+#pragma once
+#include "../winsock2_wrapper/Reactor.h"
+#include "../winsock2_wrapper/ConcreteReactor.h"
+#include "../winsock2_wrapper/SOCK_Acceptor.h"
 
-enum INITIATION_MODE
-{
-	ACTIVE,
-	PASSIVE
-};
+#include <memory>
 
+template <class HandlerClass>
 class Acceptor :
-	public ServiceHandler
+	public iEventHandler
 {
 public:
+	Acceptor(std::shared_ptr<Reactor> reactor)
+		: reactor(reactor){
 
-	Acceptor(){
-		
+			acceptor.initialize(HandlerClass::getEventType());
+			acceptor.getListeningSocket()->setNonBlocking();
 	}
 
-	void initialize(const u_short port, INITIATION_MODE = PASSIVE){
-		peerAcceptor.initialize(port);
+	void handleEvent(){
+		auto handler = std::make_shared<HandlerClass>();
+		handler->setHandle(acceptor.accept().getSocket());
 
-		peerAcceptor.getListeningSocket().setNonBlocking(true);
-		
-		dispatcher->registerHandler(this);
+		reactor->registerHandler(handler, _eventType);
 
 	}
 
-
-	~Acceptor(){
-	}
-
-	void setDispatcher(std::shared_ptr<Dispatcher> dispatcher){
-		this->dispatcher = dispatcher;
-	}
-
-	void accept(){
-		SOCK_Stream stream = peerAcceptor.accept();
-	}
-
-	void handleEvent(std::string data){
-
+	std::shared_ptr<SocketHandle> getHandle(){
+		return acceptor.getListeningSocket();
 	}
 
 private:
-	SOCK_Acceptor peerAcceptor;
-	std::shared_ptr<Dispatcher> dispatcher;
+	const EVENT_TYPE _eventType = ACCEPTOR;
+	std::shared_ptr<Reactor> reactor;
+	SOCK_Acceptor acceptor;
 
 };
+
+
 
