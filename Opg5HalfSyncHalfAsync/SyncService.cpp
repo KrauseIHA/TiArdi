@@ -28,7 +28,7 @@ void task(string threadName)
 			cout << "Event handled by thread " << threadName << endl << endl;
 		}
 
-		_sleep(100);
+		Sleep(100);
 	}
 }
 
@@ -36,9 +36,11 @@ void SyncService::startProcessing()
 {
 	thread t1 = thread(task, "1");
 	thread t2 = thread(task, "2");
+	thread t3 = thread(task, "3");
 
 	t1.detach();
 	t2.detach();
+	t3.detach();
 }
 
 
