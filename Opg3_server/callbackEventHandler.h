@@ -1,28 +1,31 @@
 #pragma once
-#include "..\winsock2_wrapper\iEventHandler.h"
+
+#include "PatientEventHandler.h"
 
 typedef void(*EventHandlerCB)(std::string data);
 
 class callbackEventHandler :
-	public iEventHandler
+	public PatientEventHandler
 {
 public:
 
-	callbackEventHandler(EventHandlerCB eventCB){
-		eventHandler = eventCB;
-	}
+	callbackEventHandler(EventHandlerCB eventCB, EVENT_TYPE eventType)
+		: _eventType(eventType), eventHandler(eventCB){
 
-	~callbackEventHandler(){
 	}
 
 	void handleEvent(std::string data){
 		(*eventHandler)(data);
 	};
 
+	const EVENT_TYPE getEventType(){
+		return _eventType;
+	};
+
 
 private:
-
-	EventHandlerCB eventHandler;
+	const EVENT_TYPE _eventType;
+	const EventHandlerCB eventHandler;
 
 };
 

@@ -1,21 +1,24 @@
 #pragma once
-#include "..\winsock2_wrapper\iEventHandler.h"
+#include "iEventHandler.h"
+#include "SOCK_Stream.h"
+#include "TransportHandle.h"
+
 class ServiceHandler :
 	public iEventHandler
 {
 public:
 
-	ServiceHandler(){
-
-	}
-
-	~ServiceHandler(){
-
-	}
-
 	void handleEvent(std::string data){
 
 	}
+
+	std::shared_ptr<SocketHandle> getHandle(){
+		std::shared_ptr<SocketHandle> handlePtr(&handle);
+		return handlePtr;
+	}
+
+private:
+	TransportHandle handle;
 
 };
 

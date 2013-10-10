@@ -15,20 +15,20 @@ int main(){
 		char testString[] = "Test string";
 
 		cout << "Ready to open connections." <<endl;
-		getch();
+		_getch();
 
 		SOCK_Connector *connection = new SOCK_Connector(ip, port);
 		cout << "conncted to " << ip << " on port " << port << endl;
-		getch();
+		_getch();
 
 		cout << "sending String : " << testString << endl;
 		connection->send(testString);
 
 		cout << "Press any key to close connection"<< endl;
-		getch();
+		_getch();
 		delete connection;
 	}catch(SOCK_Exception &e){
-		//e.displayError();
+		e.displayError();
 		DebugBreak();
 	}
 }
