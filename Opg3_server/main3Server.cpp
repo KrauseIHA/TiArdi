@@ -1,6 +1,6 @@
 
 
-#include "PatientMoniterReactor.h"
+#include "../winsock2_wrapper/ConcreteReactor.h"
 
 #include "AcceptEventHandler.h"
 #include "AlarmEventHandler.h"
@@ -27,7 +27,7 @@ void logCallback(std::string data){
 int main(){
 	try{
 		//PatientMoniterReactor reactor(50400);
-		auto reactor = std::make_shared<PatientMoniterReactor>();
+		auto reactor = std::make_shared<ConcreateReactor>();
 
 		auto alarmEvent = std::make_shared<AcceptEventHandler<AlarmEventHandler>>(reactor);
 		auto logEvent = std::make_shared <AcceptEventHandler<LogEventHandler>>(reactor);

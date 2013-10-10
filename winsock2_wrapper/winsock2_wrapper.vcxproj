@@ -72,6 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ConcreteReactor.h" />
     <ClInclude Include="SocketHandle.h" />
     <ClInclude Include="iEventHandler.h" />
     <ClInclude Include="Reactor.h" />

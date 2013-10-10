@@ -1,7 +1,8 @@
 
 
 #include "../winsock2_wrapper/SOCK_Connector.h"
-#include "../Opg3_server/PatientMoniterReactor.h"
+#include "../winsock2_wrapper/ConcreteReactor.h"
+#include "../Opg3_server/PatientEventHandler.h"
 
 #include <conio.h>
 #include <iostream>
@@ -9,17 +10,6 @@
 
 
 using namespace std;
-
-string wrapPackage(EVENT_TYPE type, std::string data){
-	//char _type[3];
-	//_type[0] = ('\1');
-	//_type[1] = ((char)type);
-	//_type[2] = '\0';
-	//string rtn = _type + data + '\1';
-	//const char* _rtn = rtn.c_str();
-	//return _rtn;
-	return data;
-}
 
 int main(){
 	const u_int NUMBER_OF_CLIENTS = 4;

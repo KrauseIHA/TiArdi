@@ -93,7 +93,6 @@
     <ClInclude Include="DemuxTable.h" />
     <ClInclude Include="LogEventHandler.h" />
     <ClInclude Include="PatientEventHandler.h" />
-    <ClInclude Include="PatientMoniterReactor.h" />
     <ClInclude Include="PatientValueEventHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

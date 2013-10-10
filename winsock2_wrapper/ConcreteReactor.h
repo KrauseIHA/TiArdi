@@ -1,15 +1,13 @@
 #pragma once
-#include "../winsock2_wrapper/Reactor.h"
-#include "../winsock2_wrapper/SOCK_Acceptor.h"
-
-#include "PatientEventHandler.h"
+#include "Reactor.h"
+#include "SOCK_Acceptor.h"
 
 #include <string>
 #include <list>
 
 using namespace std;
 
-class PatientMoniterReactor : public Reactor
+class ConcreateReactor : public Reactor
 {
 public:
 
