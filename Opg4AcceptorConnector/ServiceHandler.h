@@ -2,22 +2,27 @@
 #include "iEventHandler.h"
 #include "SOCK_Stream.h"
 #include "TransportHandle.h"
+#include "EventType.h"
 
 class ServiceHandler :
 	public iEventHandler
 {
 public:
 
-	ServiceHandler(SOCK_Stream stream)
+	ServiceHandler(shared_ptr<Dispatcher> _dispatcher)
 	{
-		sockStream = SOCK_Stream(stream);
+		dispatcher = _dispatcher;
 	}
 
 	void handleEvent(std::string data){
 
 	}
 
-	void setHandle(SOCK_Stream stream)
+	void handleEvent() {
+		
+	}
+
+	void setStream(SOCK_Stream stream)
 	{
 		sockStream = SOCK_Stream(stream);
 	}
@@ -27,8 +32,12 @@ public:
 		return handlePtr;
 	}
 
+	virtual EventType getType() = 0;
+
+	virtual void open() = 0;
+
 private:
 	SOCK_Stream sockStream;
-
+	shared_ptr<Dispatcher> dispatcher;
 };
 
