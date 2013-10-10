@@ -16,7 +16,7 @@
 
 #include "ServiceHandler.h"
 
-#include "TransportEndpoint.h";
+#include "TransportHandle.h";
 #include <memory>
 
 class Dispatcher
@@ -39,8 +39,8 @@ public:
 
 	}
 
-	void registerHandler(ServiceHandler *eventHandle){
-		TransportHandle endpoint = eventHandle->getHandle();
+	void registerHandler(iEventHandler *eventHandle){
+		auto endpoint = std::make_shared<TransportHandle>(eventHandle->getHandle());
 	}
 
 	void removeHandler(iEventHandler *eventHandle){
@@ -50,7 +50,7 @@ public:
 	void select(){
 		std::list<SocketHandle> list;
 
-		TransportEndpoint::select(list, list, list);
+		TransportHandle::select(list, list, list);
 	}
 
 private:

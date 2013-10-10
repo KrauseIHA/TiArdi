@@ -1,23 +1,23 @@
 #pragma once
 
-#include "TransportEndpoint.h"
+#include "SocketHandle.h"
 
-#include <memory>
 
-class TransportHandle
+class TransportHandle : SocketHandle
+
 {
 public:
 
-	TransportHandle(){
+	void static select(std::list<SocketHandle> &read, std::list<SocketHandle> &write, std::list<SocketHandle> &error, u_long timeout_usec){
+		SocketHandle::select(read, write, error, timeout_usec);
 	}
 
-	~TransportHandle(){
-
+	void static select(std::list<SocketHandle> &read, std::list<SocketHandle> &write, std::list<SocketHandle> &error){
+		SocketHandle::select(read, write, error);
 	}
+
 
 private:
-
-	std::unique_ptr<TransportEndpoint> transportEndpoint;
 
 };
 

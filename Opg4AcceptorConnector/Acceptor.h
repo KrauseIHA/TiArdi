@@ -37,7 +37,7 @@ enum INITIATION_MODE
 };
 
 class Acceptor :
-	public iEventHandler
+	public ServiceHandler
 {
 public:
 
@@ -50,6 +50,8 @@ public:
 
 		peerAcceptor.getListeningSocket().setNonBlocking(true);
 		
+		dispatcher->registerHandler(this);
+
 	}
 
 

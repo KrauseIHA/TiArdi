@@ -8,20 +8,13 @@ class ServiceHandler :
 {
 public:
 
-	ServiceHandler(){
-
-	}
-
-	~ServiceHandler(){
-
-	}
-
 	void handleEvent(std::string data){
 
 	}
 
-	TransportHandle getHandle(){
-		return handle;
+	std::shared_ptr<SocketHandle> getHandle(){
+		std::shared_ptr<SocketHandle> handlePtr(&handle);
+		return handlePtr;
 	}
 
 private:

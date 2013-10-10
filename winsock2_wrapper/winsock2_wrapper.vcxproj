@@ -74,7 +74,7 @@
   <ItemGroup>
     <ClInclude Include="SocketHandle.h" />
     <ClInclude Include="iEventHandler.h" />
-    <ClInclude Include="iReactor.h" />
+    <ClInclude Include="Reactor.h" />
     <ClInclude Include="INET_Addr.h" />
     <ClInclude Include="SOCK_Acceptor.h" />
     <ClInclude Include="SOCK_Connector.h" />

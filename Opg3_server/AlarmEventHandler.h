@@ -1,22 +1,16 @@
 #pragma once
-#include "..\winsock2_wrapper\iEventHandler.h"
+
+#include "PatientEventHandler.h"
 
 #include <iostream>
 
 using namespace std;
 
 class AlarmEventHandler :
-	public iEventHandler
+	public PatientEventHandler
 {
 public:
 
-	AlarmEventHandler()
-	{
-	}
-
-	~AlarmEventHandler()
-	{
-	}
 
 	void handleEvent(string data){
 		cout << "Alarm event " << cnt << ": " << endl;
@@ -25,9 +19,10 @@ public:
 		cnt++;
 	}
 
-	void getHandle(){
+	const static EVENT_TYPE getEventType(){
+		return EVENT_ALARM;
+	};
 
-	}
 
 private:
 	static int cnt;

@@ -12,24 +12,20 @@ public:
 
 	// Default.
 	SOCK_Stream() {
-
+		socket = std::make_shared<SocketHandle>();
 	}
 
-	SOCK_Stream(SocketHandle &socket) {
+	SOCK_Stream(SocketHandle socket){
 		initialize(socket);
 	}
 
-	~SOCK_Stream() {
-
-	}
-
 	void initialize(const u_short port, const char *ip){
-		socket.initialize(port, ip);
-		socket.connect();
+		socket->initialize(port, ip);
+		socket->connect();
 	}
 
 	void initialize(SocketHandle &socket){
-		this->socket = socket;
+		this->socket = std::make_shared<SocketHandle>(socket);
 	}
 
 	void send(std::string sendbuf){
@@ -37,19 +33,21 @@ public:
 	}
 
 	void send(const char * sendbuf){
-		socket.send(sendbuf);
+		socket->send(sendbuf);
 	}
 
 	std::string recive(){
-		return socket.recive();
+		return socket->recive();
 	}
 
-	SocketHandle *getSocket(){
-		return &socket;
+	std::shared_ptr<SocketHandle> getSocket(){
+		return socket;
 	}
 	
 private:
-	SocketHandle socket;
+
+	std::shared_ptr<SocketHandle> socket;
+
 };
 
 

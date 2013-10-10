@@ -87,9 +87,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AcceptEventHandler.h" />
     <ClInclude Include="AlarmEventHandler.h" />
     <ClInclude Include="callbackEventHandler.h" />
+    <ClInclude Include="DemuxTable.h" />
     <ClInclude Include="LogEventHandler.h" />
+    <ClInclude Include="PatientEventHandler.h" />
     <ClInclude Include="PatientMoniterReactor.h" />
     <ClInclude Include="PatientValueEventHandler.h" />
   </ItemGroup>

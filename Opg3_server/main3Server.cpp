@@ -2,10 +2,12 @@
 
 #include "PatientMoniterReactor.h"
 
+#include "AcceptEventHandler.h"
 #include "AlarmEventHandler.h"
 #include "LogEventHandler.h"
 #include "PatientValueEventHandler.h"
 #include "callbackEventHandler.h"
+
 
 #include <conio.h>
 #include <iostream>
@@ -24,16 +26,21 @@ void logCallback(std::string data){
 
 int main(){
 	try{
-		PatientMoniterReactor reactor(50400);
+		//PatientMoniterReactor reactor(50400);
+		auto reactor = std::make_shared<PatientMoniterReactor>();
 
-		
-		reactor.registerHandler((iEventHandler*)new AlarmEventHandler, EVENT_ALARM);
-		reactor.registerHandler((iEventHandler*)new PatientValueEventHandler, EVENT_PATIENT_VALUE);
+		auto alarmEvent = std::make_shared<AcceptEventHandler<AlarmEventHandler>>(reactor);
+		auto logEvent = std::make_shared <AcceptEventHandler<LogEventHandler>>(reactor);
+		auto valueEvent = std::make_shared <AcceptEventHandler<PatientValueEventHandler>>(reactor);
+
+		reactor->registerHandler(alarmEvent, ACCEPTOR);
+		reactor->registerHandler(logEvent, EVENT_ALARM);
+		reactor->registerHandler(valueEvent, EVENT_PATIENT_VALUE);
 		//reactor.registerHandler((iEventHandler*)new LogEventHandler, EVENT_LOG);
 
-		reactor.registerHandler((iEventHandler*)new callbackEventHandler(logCallback), EVENT_LOG);
+		//reactor.registerHandler(new callbackEventHandler(logCallback), EVENT_LOG);
 		
-		reactor.handleEvents();
+		reactor->handleEvents();
 
 	}
 	catch (SOCK_Exception &e){
