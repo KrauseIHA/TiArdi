@@ -55,6 +55,10 @@ public:
 
 	void connect(bool isAsyncronus){
 		connector.getHandle()->setNonBlocking(isAsyncronus);
+		connector.connect();
+
+		if (!isAsyncronus)
+			compleate();
 	}
 
 	void compleate(){

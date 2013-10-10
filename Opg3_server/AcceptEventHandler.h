@@ -13,7 +13,7 @@ class AcceptEventHandler :
 {
 public:
 	AcceptEventHandler(std::shared_ptr<Reactor> reactor)
-		:reactor(reactor){
+		:reactor(reactor), _eventType(ACCEPTOR){
 
 			acceptor.initialize(HandlerClass::getEventType());
 			acceptor.getListeningSocket()->setNonBlocking();
@@ -32,7 +32,7 @@ public:
 	}
 
 private:
-	const EVENT_TYPE _eventType = ACCEPTOR;
+	const EVENT_TYPE _eventType;
 	std::shared_ptr<Reactor> reactor;
 	SOCK_Acceptor acceptor;
 
