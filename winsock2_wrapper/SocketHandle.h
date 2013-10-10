@@ -1,3 +1,5 @@
+#pragma once
+
 //http://msdn.microsoft.com/en-us/library/windows/desktop/ms737629(v=vs.85).aspx
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -10,7 +12,6 @@
 #include <string>
 #include <list>
 #include <memory>
-
 
 class SocketDeleter {
 public:
@@ -47,7 +48,7 @@ public:
 	}
 
 	void initialize(INET_Addr &addr){
-
+		int count = socketRef.use_count();
 		if (socketRef.use_count() > 0 && *socketRef == INVALID_SOCKET)
 			throw SOCK_Exception(0, "Socket has already been initialised! Needs to be cleaned first");
 
@@ -82,10 +83,12 @@ public:
 		}
 	}
 
-	SocketHandle accept(){
+	std::shared_ptr<SocketHandle> accept(){
 		if (socketRef.use_count() == 0 || (*socketRef) == INVALID_SOCKET)
 			throw SOCK_Exception(0, "Socket Error");
 
+		std::shared_ptr<SocketHandle> socketPtr;
+		
 		sockaddr_in  connecingHost;
 		int sizeConnectingHost = sizeof (connecingHost);
 		ZeroMemory(&connecingHost, sizeConnectingHost);
@@ -96,25 +99,26 @@ public:
 		int errorNo = WSAGetLastError();
 
 		if (errorNo == WSAEWOULDBLOCK){
-			return SocketHandle(); //empty uninitialized handle
+			return socketPtr; //empty uninitialized handle
 		}
 
 		INET_Addr address(connecingHost.sin_port, inet_ntoa(connecingHost.sin_addr));
 		if (clientSocket == INVALID_SOCKET) {
 			throw SOCK_Exception(errorNo, "accept error");
 		}
-
-		return SocketHandle(clientSocket, address);
+		
+		socketPtr.reset(new SocketHandle(clientSocket, address));
+		return socketPtr;
 	}
 
-	void static select(std::list<SocketHandle> &read, std::list<SocketHandle> &write, std::list<SocketHandle> &error, u_long timeout_usec){
+	void static select(std::list < std::shared_ptr < SocketHandle >> &read, std::list < std::shared_ptr < SocketHandle >> &write, std::list < std::shared_ptr < SocketHandle >> &error, u_long timeout_usec){
 
 		const timeval _timeout = { 0, timeout_usec };
 
 		return select(read, write, error, &_timeout);
 	}
 
-	void static select(std::list<SocketHandle> &read, std::list<SocketHandle> &write, std::list<SocketHandle> &error){
+	void static select(std::list < std::shared_ptr < SocketHandle >> &read, std::list < std::shared_ptr < SocketHandle >> &write, std::list < std::shared_ptr < SocketHandle >> &error){
 		const timeval *_timeout = NULL;
 		return select(read, write, error, _timeout);
 	}
@@ -197,26 +201,47 @@ public:
 	bool isValid(){
 		if (socketRef.use_count() == 0)
 			return false;
-		if ( (*socketRef) == INVALID_SOCKET)
+		if ((*socketRef) == INVALID_SOCKET)
 			return false;
 
 		return true;
 	}
 
-	~SocketHandle() {
-	}
 
 private:
 	// Socket handle for exchanging socket data.
 	const static int DEFAULT_BUFLEN = 512;
 	bool isNonBlockingVal = false;
 
-	fd_set static *convertListToFdSet(const std::list<SocketHandle> &sockets){
+
+	static void matchListToFd_set(fd_set *fdset, std::list < std::shared_ptr < SocketHandle >> &list){
+		auto it = list.begin();
+		bool remove = true;
+		while (it != list.end())
+		{
+			remove = true;
+			for (u_int i = 0; i < fdset->fd_count; i++){
+				if (*it->get()->socketRef == fdset->fd_array[i]){
+					remove = false;
+					break;
+				}
+			}
+
+			if (remove){
+				list.erase(it++);
+			}
+			else{
+				it++;
+			}
+		}
+	}
+
+	static fd_set *listToFd_set(const std::list < std::shared_ptr < SocketHandle >> &sockets){
 		fd_set *fdSetSockets = new fd_set;
 
 		int i = 0;
-		for (std::list<SocketHandle>::const_iterator iter = sockets.cbegin(); iter != sockets.end(); ++iter){
-			fdSetSockets->fd_array[i] = *(*iter).socketRef;
+		for (auto iter = sockets.cbegin(); iter != sockets.end(); ++iter){
+			fdSetSockets->fd_array[i] = *(*iter)->socketRef.get();
 			i++;
 		}
 
@@ -224,20 +249,24 @@ private:
 		return fdSetSockets;
 	}
 
-	void static select(std::list<SocketHandle> &read, std::list<SocketHandle> &write, std::list<SocketHandle> &error, const timeval *timeout){
+	void static select(std::list < std::shared_ptr < SocketHandle >> &read, std::list < std::shared_ptr < SocketHandle >> &write, std::list < std::shared_ptr < SocketHandle >> &error, const timeval *timeout){
 
-		fd_set *_read = convertListToFdSet(read);
-		fd_set *_write = convertListToFdSet(write);
-		fd_set *_error = convertListToFdSet(error);
+		fd_set *_read = listToFd_set(read);
+		fd_set *_write = listToFd_set(write);
+		fd_set *_error = listToFd_set(error);
 
 		int returnVal = ::select(0, _read, _write, _error, timeout);
+
+		matchListToFd_set(_read, read);
+		matchListToFd_set(_write, write);
+		matchListToFd_set(_error, error);
 
 		delete _read;
 		delete _write;
 		delete _error;
 
 		if (returnVal == SOCKET_ERROR){
-			throw SOCK_Exception(WSAGetLastError(), "Select returned error.");
+			throw SOCK_Exception(WSAGetLastError(), "::select returned error.");
 		}
 	}
 
