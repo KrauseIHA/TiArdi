@@ -48,6 +48,7 @@ public:
 	}
 
 	void initialize(INET_Addr &addr){
+		isNonBlockingVal = false;
 		int count = socketRef.use_count();
 		if (socketRef.use_count() > 0 && *socketRef == INVALID_SOCKET)
 			throw SOCK_Exception(0, "Socket has already been initialised! Needs to be cleaned first");
@@ -211,7 +212,7 @@ public:
 private:
 	// Socket handle for exchanging socket data.
 	const static int DEFAULT_BUFLEN = 512;
-	bool isNonBlockingVal = false;
+	bool isNonBlockingVal;
 
 
 	static void matchListToFd_set(fd_set *fdset, std::list < std::shared_ptr < SocketHandle >> &list){
