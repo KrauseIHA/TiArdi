@@ -1,5 +1,5 @@
 #pragma once
 enum EventType{
-	PATIENTINFOEVENT = 0
+	PATIENTINFOEVENT = 5000
 };
 
