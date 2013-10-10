@@ -1,5 +1,6 @@
 #pragma once
 #include "../Opg4AcceptorConnector/ServiceHandler.h"
+#include <iostream>
 
 class PatientServiceHandler : ServiceHandler
 {
@@ -15,7 +16,7 @@ public:
 
 	void handleEvent()
 	{
-		sockStream.send("flaf from server");
+		cout << "String recived from client: " << sockStream.recive() << endl;
 	}
 
 	void open()
