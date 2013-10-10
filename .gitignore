@@ -21,6 +21,7 @@
 *.filters
 *.user
 *.sdf
+*.opensdf
 *.suo
 *.log
 *.tlog
