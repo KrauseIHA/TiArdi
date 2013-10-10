@@ -8,6 +8,9 @@ class ServiceHandler :
 	public iEventHandler
 {
 public:
+	ServiceHandler(){
+
+	}
 
 	ServiceHandler(std::shared_ptr<Dispatcher> _dispatcher)
 	{
@@ -36,7 +39,7 @@ public:
 
 	virtual void open() = 0;
 
-private:
+protected:
 	SOCK_Stream sockStream;
 	std::shared_ptr<Dispatcher> dispatcher;
 };
