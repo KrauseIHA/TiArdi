@@ -33,8 +33,6 @@ public:
 		return sockStream.getSocket();
 	}
 
-	virtual EventType getType() = 0;
-
 	virtual void open() = 0;
 
 protected:
