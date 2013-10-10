@@ -79,6 +79,9 @@
     <ClInclude Include="EventType.h" />
     <ClInclude Include="ServiceHandler.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dummycpp.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
