@@ -10,11 +10,13 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mainClient.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E3DCDBB5-CA2D-411D-9801-DCC37B91BFDF}</ProjectGuid>
+    <ProjectGuid>{4DAD3369-2A73-491D-8427-0FBC7E7EDCD3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>winsock2_wrapper</RootNamespace>
-    <ProjectName>winsock2_wrapper</ProjectName>
+    <RootNamespace>Opg4_5_Client</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,26 +73,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="SocketHandle.h" />
-    <ClInclude Include="iEventHandler.h" />
-    <ClInclude Include="Reactor.h" />
-    <ClInclude Include="INET_Addr.h" />
-    <ClInclude Include="SOCK_Acceptor.h" />
-    <ClInclude Include="SOCK_Connector.h" />
-    <ClInclude Include="SOCK_Exception.h" />
-    <ClInclude Include="SOCK_Stream.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="INET_Addr.cpp" />
-    <ClCompile Include="SocketHandle.cpp" />
-    <ClCompile Include="SOCK_Acceptor.cpp" />
-    <ClCompile Include="SOCK_Connector.cpp" />
-    <ClCompile Include="SOCK_Stream.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

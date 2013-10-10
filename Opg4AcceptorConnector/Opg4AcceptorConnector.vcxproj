@@ -11,10 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E3DCDBB5-CA2D-411D-9801-DCC37B91BFDF}</ProjectGuid>
+    <ProjectGuid>{AB3F1D16-7EF3-4F0F-A231-5EFD4851B3D0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>winsock2_wrapper</RootNamespace>
-    <ProjectName>winsock2_wrapper</ProjectName>
+    <RootNamespace>Opg4AcceptorConnector</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -40,7 +39,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)\winsock2_wrapper;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -72,24 +73,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="SocketHandle.h" />
-    <ClInclude Include="iEventHandler.h" />
-    <ClInclude Include="Reactor.h" />
-    <ClInclude Include="INET_Addr.h" />
-    <ClInclude Include="SOCK_Acceptor.h" />
-    <ClInclude Include="SOCK_Connector.h" />
-    <ClInclude Include="SOCK_Exception.h" />
-    <ClInclude Include="SOCK_Stream.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="INET_Addr.cpp" />
-    <ClCompile Include="SocketHandle.cpp" />
-    <ClCompile Include="SOCK_Acceptor.cpp" />
-    <ClCompile Include="SOCK_Connector.cpp" />
-    <ClCompile Include="SOCK_Stream.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ClInclude Include="Acceptor.h" />
+    <ClInclude Include="Connector.h" />
+    <ClInclude Include="Dispatcher.h" />
+    <ClInclude Include="ServiceHandler.h" />
+    <ClInclude Include="TransportEndpoint.h" />
+    <ClInclude Include="TransportHandle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

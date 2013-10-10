@@ -1,11 +1,6 @@
 #pragma once
 
-//http://msdn.microsoft.com/en-us/library/windows/desktop/ms737629(v=vs.85).aspx
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-
-#include "INET_Addr.h"
+//#include "INET_Addr.h"
 #include "SOCK_Stream.h"
 
 #include <exception>
@@ -25,12 +20,17 @@ public:
 		initialize(port);
 	}
 
-	SOCK_Stream *initialize(const u_short port){
-		listenSOCK.initialise(port);
-		listenSOCK.bind();
-		listenSOCK.listen();
-		return &listenSOCK;
+	void initialize(const u_short port){
+		listenSocket.reset(new SocketHandle());
+		listenSocket->initialize(port);
+		listenSocket->bind();
+		listenSocket->listen();
 	}
+
+	std::shared_ptr<SocketHandle> getListeningSocket(){
+		return listenSocket;
+	}
+
 
 	std::string recive(){
 		return newestSockStream->recive();
@@ -46,33 +46,24 @@ public:
 	}
 
 
-	std::string accept() {
-		newestSockStream = listenSOCK.accept();
-		std::string address = newestSockStream->getAddr().getIpAddr();
-		clientSOCKs.insert(std::pair<std::string, SOCK_Stream*>( address, newestSockStream));
-		return address;
+	SOCK_Stream accept() {
+		std::shared_ptr<SocketHandle> socket = listenSocket->accept();
+		std::string address = socket->getAddr()->getIpAddr();
+		newestSockStream = std::make_shared<SOCK_Stream>(*socket);
+		std::pair<std::string, std::shared_ptr<SOCK_Stream>> _pair(address, newestSockStream);
+		clientSOCKs.insert(_pair);
+		return *newestSockStream;
 	}
 
 	void closeConnection(std::string address){
-		SOCK_Stream *socket = clientSOCKs[address];
 		clientSOCKs.erase(address);
-		delete socket;
-	}
-
-
-	~SOCK_Acceptor(){
-		std::map<std::string, SOCK_Stream*>::iterator iter;
-
-		for (iter = clientSOCKs.begin(); iter != clientSOCKs.end(); ++iter){
-			delete (*iter).second;
-		}
-
 	}
 
 private:
 
-	SOCK_Stream listenSOCK;
-	std::map<std::string, SOCK_Stream*> clientSOCKs;
-	SOCK_Stream *newestSockStream;
+	std::shared_ptr<SocketHandle> listenSocket;
+	std::map<std::string, std::shared_ptr<SOCK_Stream>> clientSOCKs;
+	std::shared_ptr<SOCK_Stream> newestSockStream;
+
 };
 
