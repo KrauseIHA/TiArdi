@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3F0FE7FE-55FD-4249-ACA4-CD8B5EACD651}</ProjectGuid>
+    <ProjectGuid>{D77E826E-648E-4960-BE6C-D05B124F15C3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Opg4_5_Server</RootNamespace>
   </PropertyGroup>
@@ -76,15 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Opg5HalfSyncHalfAsync\Opg5HalfSyncHalfAsync.vcxproj">
-      <Project>{e140a246-c1fb-4797-a7f2-d75972e4e34a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\winsock2_wrapper\winsock2_wrapper.vcxproj">
-      <Project>{e3dcdbb5-ca2d-411d-9801-dcc37b91bfdf}</Project>
-    </ProjectReference>
+    <ClCompile Include="mainServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

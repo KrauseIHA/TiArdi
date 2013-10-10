@@ -5,6 +5,10 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
+#define _CRT_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS
+
+
 #include <winsock2.h>
 #include <Ws2tcpip.h>
 
@@ -54,13 +58,14 @@ public:
 
 		this->port = port;
 		if (address != NULL){
-			this->address = (char*)malloc(100);
-			strcpy(this->address, address);
+			const u_int SIZE = 100;
+			this->address = (char*)malloc(SIZE);
+			strcpy_s(this->address, SIZE, address);
 		}
 		else
 			this->address = NULL;
 
-		std::sprintf(portStr, "%u", port);
+		sprintf_s(portStr, "%u", port);
 
 		initializeWinSock();
 
@@ -80,7 +85,6 @@ public:
 
 	static addrinfo createAddinfo(){
 		struct addrinfo hints;
-		char portStr[MAX_LENGTH_OF_PORTNR];
 
 		ZeroMemory(&hints, sizeof (hints));
 		hints.ai_family = AF_INET;

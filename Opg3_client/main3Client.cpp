@@ -5,67 +5,76 @@
 
 #include <conio.h>
 #include <iostream>
+#include <map>
+
 
 using namespace std;
 
-string wrapPackage(Event_Type type, std::string data){
-	char _type[3];
-	_type[0] = ('\1');
-	_type[1] = ((char)type);
-	_type[2] = '\0';
-	string rtn = _type + data + '\1';
-	const char* _rtn = rtn.c_str();
-	return _rtn;
+string wrapPackage(EVENT_TYPE type, std::string data){
+	//char _type[3];
+	//_type[0] = ('\1');
+	//_type[1] = ((char)type);
+	//_type[2] = '\0';
+	//string rtn = _type + data + '\1';
+	//const char* _rtn = rtn.c_str();
+	//return _rtn;
+	return data;
 }
 
 int main(){
+	const u_int NUMBER_OF_CLIENTS = 4;
+
+	string address;
+
+	cout << "Input server address: ";
+	//cin >> address;
+	cout << endl;
+
+	if (address.length() == 0)
+		address = "localhost";
+
+	//auto connection = make_shared<SOCK_Connector>(address.c_str(), EVENT_ALARM);
+
+	//string dataToBeSent = "my data package went through yeah!";
+	//string patientValue = wrapPackage(EVENT_PATIENT_VALUE, dataToBeSent);
+	//connection->send(patientValue.c_str());
+
+	//return 1;
+	shared_ptr<SOCK_Connector> connection[3];
+	shared_ptr<SOCK_Connector> connections[3][NUMBER_OF_CLIENTS];
 
 	try{
-		const u_int NUMBER_OF_CLIENTS = 4;
-
-		string address;
-
-		cout << "Input server address: ";
-		cin >> address;
-		cout << endl;
-
-		if (address.length() == 0)
-			address = "localhost";
-
-		SOCK_Connector *connection;
-		SOCK_Connector *connections[NUMBER_OF_CLIENTS];
 		//Stress test
 
 		for (int i = 0; i < NUMBER_OF_CLIENTS; i++){
-			connections[i] = new SOCK_Connector(address.c_str(), 50400);
+			connections[0][i] = make_shared<SOCK_Connector>(address.c_str(), EVENT_ALARM);
+			connections[1][i] = make_shared<SOCK_Connector>(address.c_str(), EVENT_LOG);
+			connections[2][i] = make_shared<SOCK_Connector>(address.c_str(), EVENT_PATIENT_VALUE);
 		}
 
 		for (int i = 0; i < NUMBER_OF_CLIENTS; i++){
 			string dataToBeSent = "my data package went through yeah!";
-			string patientValue = wrapPackage(EVENT_PATIENT_VALUE, dataToBeSent + to_string(i + 1));
-			connections[i]->send(patientValue.c_str());
+			string patientValue = dataToBeSent + to_string(i + 1);
+			connections[0][i]->send(patientValue.c_str());
+			connections[1][i]->send(patientValue.c_str());
+			connections[2][i]->send(patientValue.c_str());
 		}
-		for (int i = 0; i < NUMBER_OF_CLIENTS; i++){
-			delete connections[i];
-		}
+
 
 		cout << "Press any key to start test 2" << endl;
-		getch();
+		_getch();
 
 		for (int i = 0; i < NUMBER_OF_CLIENTS; i++){
 			string dataToBeSent = "my data package went through yeah!";
-			connection = new SOCK_Connector(address.c_str(), 50400);
+			connection[0] = make_shared<SOCK_Connector>(address.c_str(), EVENT_ALARM);
+			connection[1] = make_shared<SOCK_Connector>(address.c_str(), EVENT_LOG);
+			connection[2] = make_shared<SOCK_Connector>(address.c_str(), EVENT_PATIENT_VALUE);
 
-			string alarmMsg = wrapPackage(EVENT_ALARM, dataToBeSent + to_string(i + 1));
-			connection->send(alarmMsg.c_str());
+			string msg = dataToBeSent + to_string(i + 1);
 
-			string logMsg = wrapPackage(EVENT_LOG, dataToBeSent + to_string(i + 1));
-			connection->send(logMsg.c_str());
-
-
-			string patientValue = wrapPackage(EVENT_PATIENT_VALUE, dataToBeSent + to_string(i + 1));
-			connection->send(patientValue.c_str());
-			delete connection;
+			connection[0]->send(msg.c_str());
+			connection[1]->send(msg.c_str());
+			connection[2]->send(msg.c_str());
 		}
 
 	}
@@ -73,7 +82,7 @@ int main(){
 		e.displayError();
 	}
 	cout << "Press any key to exit" << endl;
-	getch();
+	_getch();
 
 
 }
