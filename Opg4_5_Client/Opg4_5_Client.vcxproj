@@ -13,6 +13,11 @@
   <ItemGroup>
     <ClCompile Include="mainClient.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Opg4AcceptorConnector\Opg4AcceptorConnector.vcxproj">
+      <Project>{ab3f1d16-7ef3-4f0f-a231-5efd4851b3d0}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4DAD3369-2A73-491D-8427-0FBC7E7EDCD3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
