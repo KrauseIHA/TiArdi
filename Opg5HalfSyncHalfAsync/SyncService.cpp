@@ -24,7 +24,7 @@ void task(string threadName)
 		if (!queuePtr->Empty())
 		{
 			shared_ptr<iEventHandler> handlerPtr = queuePtr->Dequeue();
-			handlerPtr->handleEvent("flaf");
+			handlerPtr->handleEvent();
 			cout << "Event handled by thread " << threadName << endl << endl;
 		}
 
