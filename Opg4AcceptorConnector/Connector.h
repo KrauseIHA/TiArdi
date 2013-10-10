@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../winsock2_wrapper/iEventHandler.h"
-
 //A connector[13] is a factory that implements the strategy for actively establishing a connected
 //transport endpoint and initializing its associated transport handle and service handler.It
 //provides two methods, connection initiation and connection completion, that perform these
@@ -27,21 +25,41 @@
 //the connection completion method only after the connector is notified that the transport
 //endpoint has finished connecting asynchronously
 
+#include "../winsock2_wrapper/iEventHandler.h"
+#include "../winsock2_wrapper/SOCK_Connector.h"
+
+#include "ServiceHandler.h"
+
 class Connector :
 	public iEventHandler
 {
 public:
 
-	Connector(){
+	Connector(){}
+
+	Connector(std::string ip, const u_short port) {
+		initialize(ip, port);
+	}
+
+	Connector(std::shared_ptr<ServiceHandler> serviceHandler){
+		initialize(serviceHandler);
+	}
+
+	void initialize(std::string ip, const u_short port){
+		connector.initialize(ip.c_str(), port);
 
 	}
 
-	void handleEvent(std::string data){
+	void initialize(std::shared_ptr<ServiceHandler> serviceHandler){
 
 	}
 
-	void connect(){
+	void handleEvent(){
 
+	}
+
+	void connect(bool isAsyncronus){
+		connector.getHandle()->setNonBlocking(isAsyncronus);
 	}
 
 	void compleate(){
@@ -49,6 +67,6 @@ public:
 	}
 
 private:
-
+	SOCK_Connector connector;
 };
 
