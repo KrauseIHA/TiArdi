@@ -11,11 +11,11 @@ class ConcreateReactor : public Reactor
 {
 public:
 
-	void handleEvents(int timeout = 0){
+	void handleEvents(){
 		bool running = true;
 
 		while (running){
-			running = internalHandleEvent(timeout);
+			running = internalHandleEvent();
 		}
 
 	}
@@ -39,7 +39,7 @@ private:
 		return output;
 	}
 
-	bool internalHandleEvent(int timeout){
+	bool internalHandleEvent(){
 		auto readSockets = createListOfSockets();
 
 		SocketHandle::select(*(readSockets.get()), emptylist, emptylist);

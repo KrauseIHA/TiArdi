@@ -37,7 +37,7 @@ void main(){
 
 	dispatcher->registerHandler(accepter, EventType::ACCEPTOR);
 
-
+	dispatcher->handleEvents();
 	//5: respond with PatientInfo
 
 }

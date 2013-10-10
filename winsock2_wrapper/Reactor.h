@@ -8,7 +8,7 @@ class Reactor
 {
 public:
 
-	virtual void handleEvents(int timeout) = 0;
+	virtual void handleEvents() = 0;
 
 	virtual void registerHandler(std::shared_ptr<iEventHandler> eh, int et){
 		std::pair<int, std::shared_ptr<iEventHandler>> element(et, eh);
