@@ -36,10 +36,6 @@ public:
 
 	}
 
-	~Connector(){
-
-	}
-
 	void handleEvent(std::string data){
 
 	}
@@ -51,6 +47,8 @@ public:
 	void compleate(){
 
 	}
+
+private:
 
 };
 
