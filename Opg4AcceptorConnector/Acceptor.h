@@ -39,8 +39,8 @@ class Acceptor :
 	public iEventHandler
 {
 public:
-	Acceptor(std::shared_ptr<Reactor> reactor, u_short port)
-		: reactor(reactor), _eventType(EventType::ACCEPTOR){
+	Acceptor(std::shared_ptr<Reactor> dispatcher, u_short port)
+		: _dispatcher(dispatcher), _eventType(EventType::ACCEPTOR){
 
 			
 			acceptor.initialize(port);
@@ -48,10 +48,10 @@ public:
 	}
 
 	void handleEvent(){
-		auto handler = std::make_shared<HandlerClass>();
+		auto handler = std::make_shared<HandlerClass>(_dispatcher);
 		handler->setStream(acceptor.accept());
 
-		reactor->registerHandler(handler, _eventType);
+		_dispatcher->registerHandler(handler, _eventType);
 
 	}
 
@@ -61,7 +61,7 @@ public:
 
 private:
 	const EventType _eventType;
-	std::shared_ptr<Reactor> reactor;
+	std::shared_ptr<Reactor> _dispatcher;
 	SOCK_Acceptor acceptor;
 
 };

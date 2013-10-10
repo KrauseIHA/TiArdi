@@ -6,10 +6,6 @@ class PatientServiceHandlerServer : public ServiceHandler
 {
 public:
 
-	PatientServiceHandlerServer(){
-
-	}
-
 	PatientServiceHandlerServer(std::shared_ptr<Reactor> _dispatcher) : ServiceHandler(_dispatcher)	{
 		patientDatabase = make_shared <map<string, string>>();
 

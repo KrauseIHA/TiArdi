@@ -4,12 +4,17 @@
 
 int main(){
 	
-	
+	string address = "localhost";
 	
 	//1: Open socket connection to server
 
-	Connector<PatientServiceHandlerClient> connector;
-	connector.initialize("localhost", EventType::PATIENTINFOEVENT);
+	auto dispatcher = make_shared<Dispatcher>();
+
+	Connector<PatientServiceHandlerClient> connector(address.c_str(), EventType::PATIENTINFOEVENT, dispatcher);
+
+	connector.connect(false);
+
+	dispatcher->handleEvents();
 
 	//2: Client inputs CPR number on the client PC
 

@@ -30,14 +30,17 @@ void main(){
 	//}
 
 	//cout << value << endl;
+	try{
+		std::shared_ptr<Reactor> dispatcher = make_shared<Dispatcher>();
 
-	std::shared_ptr<Reactor> dispatcher = make_shared<Dispatcher>();
+		auto accepter = make_shared < Acceptor<PatientServiceHandlerServer>>(dispatcher, EventType::PATIENTINFOEVENT);
 
-	auto accepter = make_shared < Acceptor<PatientServiceHandlerServer>>(dispatcher, EventType::PATIENTINFOEVENT);
+		dispatcher->registerHandler(accepter, EventType::ACCEPTOR);
 
-	dispatcher->registerHandler(accepter, EventType::ACCEPTOR);
-
-	dispatcher->handleEvents();
-	//5: respond with PatientInfo
-
+		dispatcher->handleEvents();
+		//5: respond with PatientInfo
+	}
+	catch (SOCK_Exception &e){
+		e.displayError();
+	}
 }

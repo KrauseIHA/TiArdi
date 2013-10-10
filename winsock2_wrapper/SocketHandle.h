@@ -183,7 +183,8 @@ public:
 		}
 
 		if (iResult <= 0)
-			return std::string();
+			throw SOCK_Exception(WSAGetLastError(), "Recive Error");
+
 
 		recvBuff[iResult] = 0; //add null Termination
 
