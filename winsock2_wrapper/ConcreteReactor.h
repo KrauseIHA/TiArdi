@@ -71,8 +71,6 @@ private:
 
 	}
 
-	SOCK_Acceptor acceptor;
-
 	std::list<std::shared_ptr<SocketHandle>> emptylist;
 
 };

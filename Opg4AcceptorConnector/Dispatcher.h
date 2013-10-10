@@ -15,9 +15,7 @@
 //asynchronously on behalf of multiple service handlers.
 
 #include "ServiceHandler.h"
-#include "TransportHandle.h"
 #include "../winsock2_wrapper/Reactor.h"
-
 #include <memory>
 
 
@@ -86,8 +84,6 @@ private:
 		return true;
 
 	}
-
-	SOCK_Acceptor acceptor;
 
 	std::list<std::shared_ptr<SocketHandle>> emptylist;
 

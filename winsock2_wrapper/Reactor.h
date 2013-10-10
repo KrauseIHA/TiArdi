@@ -15,10 +15,10 @@ public:
 		registeredHandlers.push_back(element);
 	}
 
-	virtual void removeHandler(std::shared_ptr<iEventHandler> eh, int et){
+	virtual void removeHandler(iEventHandler *eh, int et){
 		auto it = registeredHandlers.begin();
 		while (++it != registeredHandlers.end()){
-			if (it->first == et && it->second.get() == eh.get())
+			if (it->first == et && it->second.get() == eh)
 				return;
 		}
 

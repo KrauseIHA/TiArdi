@@ -15,17 +15,12 @@ public:
 		socket = std::make_shared<SocketHandle>();
 	}
 
-	SOCK_Stream(SocketHandle socket){
+	SOCK_Stream(std::shared_ptr<SocketHandle> socket){
 		initialize(socket);
 	}
 
-	void initialize(const u_short port, const char *ip){
-		socket->initialize(port, ip);
-		socket->connect();
-	}
-
-	void initialize(SocketHandle &socket){
-		this->socket = std::make_shared<SocketHandle>(socket);
+	void initialize(std::shared_ptr<SocketHandle> socket){
+		this->socket = socket;
 	}
 
 	void send(std::string sendbuf){

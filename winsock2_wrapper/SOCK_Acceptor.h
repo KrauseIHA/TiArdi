@@ -49,7 +49,7 @@ public:
 	SOCK_Stream accept() {
 		std::shared_ptr<SocketHandle> socket = listenSocket->accept();
 		std::string address = socket->getAddr()->getIpAddr();
-		newestSockStream = std::make_shared<SOCK_Stream>(*socket);
+		newestSockStream = std::make_shared<SOCK_Stream>(socket);
 		std::pair<std::string, std::shared_ptr<SOCK_Stream>> _pair(address, newestSockStream);
 		clientSOCKs.insert(_pair);
 		return *newestSockStream;
