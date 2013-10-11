@@ -24,20 +24,11 @@ void task(string threadName)
 	{
 		if (!queuePtr->Empty())
 		{
-			pair<int, shared_ptr<iEventHandler>> handlerPair = queuePtr->Dequeue();
+			pair<iTaskHandler*, void*> handlerPair = queuePtr->Dequeue();
 
-			try{
-				handlerPair.second->handleEvent();
+			if (handlerPair.first != NULL){
+				handlerPair.first->runTask(handlerPair.second);
 				cout << "Event handled by thread " << threadName << endl << endl;
-
-			}
-			catch (SOCK_Exception &e){
-				if (e.errorCode == 0)
-				{
-					Dispatcher dispatcher = Dispatcher();
-					dispatcher.removeHandler(handlerPair.second.get(), handlerPair.first);
-				}	
-				throw e;
 			}
 		}
 

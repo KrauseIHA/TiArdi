@@ -17,12 +17,13 @@ public:
 
 	}
 
-	void handleEvent(std::string data){
-
-	}
+	virtual void handleEvent(std::string data) = 0;
 
 	void handleEvent() {
 
+		string *data = new string(sockStream.recive());
+
+		handleEvent(*data);
 	}
 
 	void setStream(SOCK_Stream stream)
@@ -39,5 +40,7 @@ public:
 protected:
 	SOCK_Stream sockStream;
 	std::shared_ptr<Reactor> dispatcher;
+
+
 };
 

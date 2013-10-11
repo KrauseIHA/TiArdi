@@ -11,9 +11,9 @@ public:
 
 	}
 
-	void handleEvent() {
+	void handleEvent(string data) {
 
-		std::cout << sockStream.recive() << std::endl;
+		std::cout << data << std::endl;
 	}
 
 	void open() {

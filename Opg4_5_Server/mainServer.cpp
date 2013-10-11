@@ -35,7 +35,7 @@ void main(){
 	service.startProcessing();
 
 	try{
-		std::shared_ptr<HalfSyncHalfAsyncDispatcher> dispatcher = make_shared<HalfSyncHalfAsyncDispatcher>();
+		auto dispatcher = make_shared<Dispatcher>();
 
 		auto accepter = make_shared < Acceptor<PatientServiceHandlerServer>>(dispatcher, EventType::PATIENTINFOEVENT);
 

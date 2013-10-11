@@ -74,6 +74,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="iTaskHandler.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="SyncService.h" />
   </ItemGroup>
@@ -82,9 +83,6 @@
     <ClCompile Include="SyncService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Opg4AcceptorConnector\Opg4AcceptorConnector.vcxproj">
-      <Project>{ab3f1d16-7ef3-4f0f-a231-5efd4851b3d0}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\winsock2_wrapper\winsock2_wrapper.vcxproj">
       <Project>{e3dcdbb5-ca2d-411d-9801-dcc37b91bfdf}</Project>
     </ProjectReference>
