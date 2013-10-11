@@ -44,7 +44,6 @@ public:
 
 	void initialize(std::string ip, const u_short port){
 		connector.initialize(ip.c_str(), port);
-
 	}
 
 	void handleEvent(){

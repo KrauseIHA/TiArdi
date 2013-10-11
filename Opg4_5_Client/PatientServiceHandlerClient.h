@@ -16,16 +16,21 @@ public:
 	void handleEvent(string data) {
 		std::cout << data << std::endl;
 		end = clock();
-		cout << "Time elapsed: " << diffclock(end, begin) << " ms" << endl;
+		cout << "Time elapsed: " << diffclock(end, begin) << " ms\n\n" << endl;
+		askForPatientInfo();
+	}
+
+	void askForPatientInfo(){
+		string cpr_nr;
+		cout << "Input CPR NR (hint: 123456-1111):" << endl;
+		cin >> cpr_nr;
+		sockStream.send(cpr_nr);
+		begin = clock();
 	}
 
 	void open() {
-		string cpr_nr;
-		cin >> cpr_nr;
-
-		begin = clock();
 		dispatcher->registerHandler(make_shared<PatientServiceHandlerClient>(*this), EventType::PATIENTINFOEVENT);
-		sockStream.send(cpr_nr);
+		askForPatientInfo();
 	}
 
 	EventType getType() {

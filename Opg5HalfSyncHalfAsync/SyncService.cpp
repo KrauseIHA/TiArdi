@@ -17,7 +17,6 @@ SyncService::~SyncService()
 
 void task(string threadName)
 {
-	cout << "Thread " << threadName << " started processing" << endl;
 	shared_ptr<Queue> queuePtr = Queue::Instance();
 
 	while (true)
@@ -28,7 +27,6 @@ void task(string threadName)
 
 			if (handlerPair.first != NULL){
 				handlerPair.first->runTask(handlerPair.second);
-				cout << "Event handled by thread " << threadName << endl << endl;
 			}
 		}
 

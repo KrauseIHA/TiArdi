@@ -13,6 +13,7 @@ using namespace std;
 
 void main(){
 
+	cout << "hej fra server" << endl;
 
 	//initiate server
 

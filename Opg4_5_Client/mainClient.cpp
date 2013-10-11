@@ -1,12 +1,26 @@
 #include "../Opg4AcceptorConnector/Connector.h"
 #include "PatientServiceHandlerClient.h"
 #include "../Opg4AcceptorConnector/EventType.h"
-
+#include <conio.h>
 
 int main(){
 
+	cout << "hej fra client" << endl;
+
 	string address = "localhost";
 
+	cout << "input server address (press enter for localhost): ";
+	int firstChar = _getch();
+
+	if (firstChar != 13){
+		cout << (char)firstChar;
+		cin >> address;
+		address = (char) firstChar + address;
+		cout << endl;
+	}
+	else{
+		cout << address << endl;
+	}
 	//1: Open socket connection to server
 
 	try{
