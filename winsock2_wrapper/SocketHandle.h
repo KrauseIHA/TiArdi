@@ -187,7 +187,7 @@ public:
 
 
 		recvBuff[iResult] = 0; //add null Termination
-
+		
 		return std::string(recvBuff);
 	}
 

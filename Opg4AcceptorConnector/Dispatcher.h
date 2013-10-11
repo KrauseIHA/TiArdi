@@ -31,9 +31,13 @@ public:
 		while (running){
 			running = internalHandleEvent();
 		}
-
 	}
 
+
+protected:
+	virtual void callHandelevent(std::shared_ptr<iEventHandler> eventHandler){
+		return eventHandler->handleEvent();
+	}
 
 private:
 
@@ -69,7 +73,7 @@ private:
 			do{
 				if ((*itSockets) == itHandlers->second->getHandle()){
 					try{
-						itHandlers->second->handleEvent();
+						callHandelevent(itHandlers->second);
 					}
 					catch (SOCK_Exception &e){
 						if (e.errorCode == 0)
