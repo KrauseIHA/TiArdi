@@ -53,7 +53,7 @@ public:
 		auto handler = std::make_shared<HandlerClass>(_dispatcher);
 		handler->setStream(acceptor.accept());
 
-		_dispatcher->registerHandler(handler, _eventType);
+		handler->open();
 
 	}
 
