@@ -17,12 +17,10 @@ int main(){
 		connector.connect(true);
 
 		dispatcher->handleEvents();
-
 	}
 	catch (SOCK_Exception &e){
 		e.displayError();
 	}
-
 	//2: Client inputs CPR number on the client PC
 
 	//3: Send GetPatientInfo(CPR number) request to server via TCP/IP

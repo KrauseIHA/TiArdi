@@ -5,7 +5,7 @@
 #include <string>
 
 #include "../Opg4AcceptorConnector/Acceptor.h"
-#include "../Opg4AcceptorConnector/Dispatcher.h"
+#include "../Opg5HalfSyncHalfAsync/SyncService.h"
 
 #include "PatientServiceHandlerServer.h"
 
@@ -30,8 +30,11 @@ void main(){
 	//}
 
 	//cout << value << endl;
+	SyncService service = SyncService();
+	service.startProcessing();
+
 	try{
-		std::shared_ptr<Reactor> dispatcher = make_shared<Dispatcher>();
+		auto dispatcher = make_shared<Dispatcher>();
 
 		auto accepter = make_shared < Acceptor<PatientServiceHandlerServer>>(dispatcher, EventType::PATIENTINFOEVENT);
 

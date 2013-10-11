@@ -13,9 +13,8 @@ public:
 
 	}
 
-	void handleEvent() {
-
-		std::cout << sockStream.recive() << std::endl;
+	void handleEvent(string data) {
+		std::cout << data << std::endl;
 		end = clock();
 		cout << "Time elapsed: " << diffclock(end, begin) << " ms" << endl;
 	}

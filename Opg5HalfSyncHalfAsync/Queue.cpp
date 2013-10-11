@@ -11,16 +11,22 @@ shared_ptr<Queue> Queue::Instance()
 	return _instance;
 }
 
-void Queue::Enqueue(shared_ptr<iEventHandler> eh)
+void Queue::Enqueue(iTaskHandler *eh, void *message)
 {
 	_sm.lock();
-	_queue.push(eh);
+	pair < iTaskHandler*, void*> element(eh, message);
+	_queue.push(element);
 	_sm.unlock();
 }
 
-shared_ptr<iEventHandler> Queue::Dequeue()
+pair<iTaskHandler *, void*> Queue::Dequeue()
 {
 	_sm.lock();
+	if (_queue.empty()){
+		_sm.unlock();
+		return pair<iTaskHandler *, void*>(NULL, NULL);
+	}
+
 	auto popped = _queue.front();
 	_queue.pop();
 	_sm.unlock();

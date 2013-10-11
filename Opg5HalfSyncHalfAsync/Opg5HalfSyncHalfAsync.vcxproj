@@ -74,6 +74,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="iTaskHandler.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="SyncService.h" />
   </ItemGroup>

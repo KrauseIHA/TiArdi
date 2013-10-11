@@ -77,13 +77,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="mainServer.cpp" />
+    <ClCompile Include="PatientServiceHandlerServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HalfSyncHalfAsyncDispatcher.h" />
     <ClInclude Include="PatientServiceHandlerServer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Opg4AcceptorConnector\Opg4AcceptorConnector.vcxproj">
       <Project>{ab3f1d16-7ef3-4f0f-a231-5efd4851b3d0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Opg5HalfSyncHalfAsync\Opg5HalfSyncHalfAsync.vcxproj">
+      <Project>{e140a246-c1fb-4797-a7f2-d75972e4e34a}</Project>
     </ProjectReference>
     <ProjectReference Include="..\winsock2_wrapper\winsock2_wrapper.vcxproj">
       <Project>{e3dcdbb5-ca2d-411d-9801-dcc37b91bfdf}</Project>

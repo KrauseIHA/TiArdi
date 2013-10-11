@@ -1,8 +1,11 @@
 #pragma once
 #include "../Opg4AcceptorConnector/ServiceHandler.h"
 #include <iostream>
+#include <map>
+#include "../Opg5HalfSyncHalfAsync/Queue.h"
+#include "../Opg5HalfSyncHalfAsync/iTaskHandler.h"
 
-class PatientServiceHandlerServer : public ServiceHandler
+class PatientServiceHandlerServer : public ServiceHandler, public iTaskHandler
 {
 public:
 
@@ -24,10 +27,9 @@ public:
 		patientDatabase->insert(patient6);
 	}
 
-
-	void handleEvent()
-	{
-		string cprNr = sockStream.recive();
+	void runTask(void *data){
+		string cprNr(*((string*)data));
+		delete data;
 
 		string patientInfo = (*patientDatabase)[cprNr];
 
@@ -37,6 +39,11 @@ public:
 
 		sockStream.send(patientInfo);
 
+	}
+
+	void handleEvent(string cprNr)
+	{
+		(*PatientServiceHandlerServer::queue).Enqueue(this, new string(cprNr));
 	}
 
 	void open()
@@ -50,5 +57,7 @@ public:
 
 private:
 	shared_ptr<map<string, string>> patientDatabase;
+	static shared_ptr<Queue> queue;
+
 };
 
