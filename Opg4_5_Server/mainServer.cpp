@@ -5,7 +5,6 @@
 #include <string>
 
 #include "../Opg4AcceptorConnector/Acceptor.h"
-#include "HalfSyncHalfAsyncDispatcher.h"
 #include "../Opg5HalfSyncHalfAsync/SyncService.h"
 
 #include "PatientServiceHandlerServer.h"
