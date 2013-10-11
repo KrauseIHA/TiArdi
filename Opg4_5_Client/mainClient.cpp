@@ -2,6 +2,7 @@
 #include "PatientServiceHandlerClient.h"
 #include "../Opg4AcceptorConnector/EventType.h"
 
+
 int main(){
 
 	string address = "localhost";
@@ -9,8 +10,6 @@ int main(){
 	//1: Open socket connection to server
 
 	try{
-
-
 		auto dispatcher = make_shared<Dispatcher>();
 
 		Connector<PatientServiceHandlerClient> connector(address.c_str(), EventType::PATIENTINFOEVENT, dispatcher);
@@ -18,7 +17,6 @@ int main(){
 		connector.connect(true);
 
 		dispatcher->handleEvents();
-
 
 	}
 	catch (SOCK_Exception &e){
