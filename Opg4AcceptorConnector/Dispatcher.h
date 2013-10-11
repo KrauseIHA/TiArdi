@@ -86,8 +86,8 @@ private:
 					catch (SOCK_Exception &e){
 						if (e.errorCode == 0)
 							registered.erase(itHandlers--);
-
-						throw e;
+						else
+							throw e;
 					}
 
 				}
