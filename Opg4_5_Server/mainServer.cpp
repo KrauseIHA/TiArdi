@@ -39,8 +39,6 @@ void main(){
 
 		auto accepter = make_shared < Acceptor<PatientServiceHandlerServer>>(dispatcher, EventType::PATIENTINFOEVENT);
 
-		dispatcher->registerHandler(accepter, EventType::ACCEPTOR);
-
 		dispatcher->handleEvents();
 		//5: respond with PatientInfo
 	}

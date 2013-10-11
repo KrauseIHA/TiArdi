@@ -45,6 +45,8 @@ public:
 			
 			acceptor.initialize(port);
 			acceptor.getListeningSocket()->setNonBlocking();
+
+			_dispatcher->registerHandler(make_shared<Acceptor>(*this), EventType::CONNECTOR);
 	}
 
 	void handleEvent(){
