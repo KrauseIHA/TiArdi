@@ -48,6 +48,7 @@ public:
 	}
 
 	void handleEvent(){
+		_dispatcher->removeActor(this, EventType::CONNECTOR);
 		complete();
 	}
 
@@ -58,6 +59,8 @@ public:
 
 		if (!_isAsyncronus)
 			complete();
+		else
+			_dispatcher->registerActor(make_shared<Connector>(*this), EventType::CONNECTOR);
 	}
 
 	void complete(){
@@ -66,8 +69,6 @@ public:
 		serviceHandler->setStream(socket);
 		serviceHandler->open();
 
-		if (_isAsyncronus)
-		_dispatcher->removeHandler(this, EventType::ACCEPTOR);
 	}
 
 	std::shared_ptr<SocketHandle> getHandle(){

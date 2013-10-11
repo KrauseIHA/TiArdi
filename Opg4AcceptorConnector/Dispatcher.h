@@ -41,35 +41,43 @@ protected:
 
 private:
 
-	shared_ptr < list < shared_ptr < SocketHandle >> > createListOfSockets(){
+	shared_ptr < list < shared_ptr < SocketHandle >> > createListOfSockets(std::list< std::pair< int, std::shared_ptr<iEventHandler> > > registeredList){
 		auto output = make_shared < list < shared_ptr < SocketHandle >> >();
 
-		auto it = registeredHandlers.begin();
+		auto it = registeredList.begin();
 
-		if (registeredHandlers.size() == 0){
+		if (registeredList.size() == 0){
 			return output;
 		}
 
 		do{
 			output->push_front(it->second->getHandle());
-		} while (++it != registeredHandlers.end());
+		} while (++it != registeredList.end());
 
 		return output;
 	}
 
 	bool internalHandleEvent(){
-		auto readSockets = createListOfSockets();
+		auto readSockets = createListOfSockets(registeredHandlers);
+		auto connectSockets = createListOfSockets(registeredActors);
 
-		SocketHandle::select(*(readSockets.get()), emptylist, emptylist);
+		SocketHandle::select(*readSockets, *connectSockets, emptylist);
 
-		if (readSockets->size() == 0)
-			return true;
+		loopSockets(readSockets, registeredHandlers);
+		loopSockets(connectSockets, registeredActors);
 
-		auto itSockets = readSockets->begin();
+		return true;
+	}
+
+	void loopSockets(std::shared_ptr < std::list < std::shared_ptr < SocketHandle >> > sockets, std::list< std::pair< int, std::shared_ptr<iEventHandler> > > registered){
+		if (sockets->size() == 0)
+			return;
+
+		auto itSockets = sockets->begin();
 
 		do{
 
-			auto itHandlers = registeredHandlers.begin();
+			auto itHandlers = registered.begin();
 			do{
 				if ((*itSockets) == itHandlers->second->getHandle()){
 					try{
@@ -77,18 +85,15 @@ private:
 					}
 					catch (SOCK_Exception &e){
 						if (e.errorCode == 0)
-							registeredHandlers.erase(itHandlers--);
+							registered.erase(itHandlers--);
 
 						throw e;
 					}
 
 				}
-			} while (++itHandlers != registeredHandlers.end());
+			} while (++itHandlers != registered.end());
 
-		} while (++itSockets != readSockets->end());
-
-		return true;
-
+		} while (++itSockets != sockets->end());
 	}
 
 	std::list<std::shared_ptr<SocketHandle>> emptylist;

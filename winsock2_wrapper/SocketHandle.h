@@ -139,6 +139,9 @@ public:
 		iResult = ::WSAConnect((*socketRef), addrRef->ai_addr, addrRef->ai_addrlen, NULL, NULL, NULL, NULL);
 		if (iResult == SOCKET_ERROR) {
 			int errorCode = WSAGetLastError();
+			if (isNonBlockingVal && errorCode == WSAEWOULDBLOCK)
+				return; //This error should happon since we don't allow connect to block.
+
 			throw SOCK_Exception(errorCode, "connect error");
 		}
 

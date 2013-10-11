@@ -3,18 +3,27 @@
 #include "../Opg4AcceptorConnector/EventType.h"
 
 int main(){
-	
+
 	string address = "localhost";
-	
+
 	//1: Open socket connection to server
 
-	auto dispatcher = make_shared<Dispatcher>();
+	try{
 
-	Connector<PatientServiceHandlerClient> connector(address.c_str(), EventType::PATIENTINFOEVENT, dispatcher);
 
-	connector.connect(false);
+		auto dispatcher = make_shared<Dispatcher>();
 
-	dispatcher->handleEvents();
+		Connector<PatientServiceHandlerClient> connector(address.c_str(), EventType::PATIENTINFOEVENT, dispatcher);
+
+		connector.connect(true);
+
+		dispatcher->handleEvents();
+
+
+	}
+	catch (SOCK_Exception &e){
+		e.displayError();
+	}
 
 	//2: Client inputs CPR number on the client PC
 
