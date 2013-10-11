@@ -35,8 +35,8 @@ public:
 
 
 protected:
-	virtual void callHandelevent(std::shared_ptr<iEventHandler> eventHandler){
-		return eventHandler->handleEvent();
+	virtual void callHandelevent(pair<int, shared_ptr<iEventHandler>> eventHandler){
+		eventHandler.second->handleEvent();
 	}
 
 private:
@@ -73,13 +73,15 @@ private:
 			do{
 				if ((*itSockets) == itHandlers->second->getHandle()){
 					try{
-						callHandelevent(itHandlers->second);
+						callHandelevent(*itHandlers);
 					}
 					catch (SOCK_Exception &e){
 						if (e.errorCode == 0)
 							registeredHandlers.erase(itHandlers--);
-
-						throw e;
+						else
+						{
+							throw e;
+						}
 					}
 
 				}

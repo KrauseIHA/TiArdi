@@ -1,6 +1,7 @@
 #pragma once
 #include "../winsock2_wrapper/iEventHandler.h"
 #include "../winsock2_wrapper/SOCK_Stream.h"
+#include "../winsock2_wrapper/Reactor.h"
 #include "EventType.h"
 #include "Dispatcher.h"
 

@@ -24,11 +24,20 @@ public:
 		patientDatabase->insert(patient6);
 	}
 
+	void handleEventQueue()
+	{
+		string data = sockStream.recive();
+		handleEvent(data);
+	}
 
 	void handleEvent()
 	{
-		string cprNr = sockStream.recive();
+		string data = sockStream.recive();
+		handleEvent(data);
+	}
 
+	void handleEvent(string cprNr)
+	{
 		string patientInfo = (*patientDatabase)[cprNr];
 
 		cout << "String recived from client: " << cprNr << endl;

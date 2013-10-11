@@ -11,14 +11,14 @@ shared_ptr<Queue> Queue::Instance()
 	return _instance;
 }
 
-void Queue::Enqueue(shared_ptr<iEventHandler> eh)
+void Queue::Enqueue(pair<int, shared_ptr<iEventHandler>> eh)
 {
 	_sm.lock();
 	_queue.push(eh);
 	_sm.unlock();
 }
 
-shared_ptr<iEventHandler> Queue::Dequeue()
+pair<int, shared_ptr<iEventHandler>> Queue::Dequeue()
 {
 	_sm.lock();
 	auto popped = _queue.front();

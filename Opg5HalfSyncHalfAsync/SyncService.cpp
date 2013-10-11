@@ -2,6 +2,7 @@
 #include "Queue.h"
 #include <thread>
 #include <iostream>
+#include "../Opg4AcceptorConnector/Dispatcher.h"
 
 
 SyncService::SyncService()
@@ -23,9 +24,21 @@ void task(string threadName)
 	{
 		if (!queuePtr->Empty())
 		{
-			shared_ptr<iEventHandler> handlerPtr = queuePtr->Dequeue();
-			handlerPtr->handleEvent();
-			cout << "Event handled by thread " << threadName << endl << endl;
+			pair<int, shared_ptr<iEventHandler>> handlerPair = queuePtr->Dequeue();
+
+			try{
+				handlerPair.second->handleEvent();
+				cout << "Event handled by thread " << threadName << endl << endl;
+
+			}
+			catch (SOCK_Exception &e){
+				if (e.errorCode == 0)
+				{
+					Dispatcher dispatcher = Dispatcher();
+					dispatcher.removeHandler(handlerPair.second.get(), handlerPair.first);
+				}	
+				throw e;
+			}
 		}
 
 		Sleep(100);
